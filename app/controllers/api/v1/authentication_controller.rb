@@ -8,18 +8,16 @@ module Api
         p params.require(:password).inspect
         render json: { token: '123' }, status: :created
       end
-      
+
       private
 
       def auth_params
-        params.require(:authenticate).permit([:username, :password])
+        params.require(:authenticate).permit(%i[username password])
       end
 
-      def parameter_missing(e)
-        render json: { error: e.message }, status: :unprocessable_entity
+      def parameter_missing(err)
+        render json: { error: err.message }, status: :unprocessable_entity
       end
-      
-      
     end
   end
 end
