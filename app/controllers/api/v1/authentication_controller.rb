@@ -14,11 +14,7 @@ module Api
       end
 
       private
-
-      def auth_params
-        params.require(:authenticate).permit(%i[username password])
-      end
-
+      
       def parameter_missing(err)
         render json: { error: err.message }, status: :unprocessable_entity
       end
