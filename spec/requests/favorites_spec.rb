@@ -20,28 +20,38 @@ RSpec.describe 'Favorites', type: :request do
   end
 
   let(:token) { AuthenticationTokenService.encode(user.id) }
-
-  before do    
-    post '/api/v1/favorites',
-    params: {
-      favorite: {
-       course_slug: course.slug               
-      }
-    },
-    headers: {
-      'Authorization' => "Bearer #{token}"
-    }
-  end
   
   describe 'POST /favorites' do
     it 'it adds to favorites' do
+      expect {          
+        post '/api/v1/favorites',
+        params: {
+          favorite: {
+          course_slug: course.slug               
+          }
+        },
+        headers: {
+          'Authorization' => "Bearer #{token}"
+        }
+      }.to change { Favorite.count }.from(0).to(1)
+
       expect(response).to have_http_status(:created)
       expect(response_body).to eq(JSON.parse(CourseSerializer.new(course).serialized_json)) 
     end
   end
 
   describe "GET /favorites" do
-    it 'returns all favorites' do
+    it 'returns all favorites' do        
+      post '/api/v1/favorites',
+      params: {
+        favorite: {
+        course_slug: course.slug               
+        }
+      },
+      headers: {
+        'Authorization' => "Bearer #{token}"
+      }
+
       get '/api/v1/favorites',
            headers: {
              'Authorization' => "Bearer #{token}"
@@ -52,11 +62,25 @@ RSpec.describe 'Favorites', type: :request do
   end
 
   describe 'DELETE /favorites' do
-    it 'removes a course from favorites' do
-      delete "/api/v1/favorites/#{course.slug}",
+    it 'removes a course from favorites' do        
+      post '/api/v1/favorites',
+      params: {
+        favorite: {
+        course_slug: course.slug               
+        }
+      },
       headers: {
         'Authorization' => "Bearer #{token}"
-      }      
+      }
+      
+      expect  {
+        delete "/api/v1/favorites/#{course.slug}",
+        headers: {
+          'Authorization' => "Bearer #{token}"
+        } 
+      }.to change { Favorite.count }.from(1).to(0)
+      
+      expect(response).to have_http_status(:no_content)
     end
   end
 end
