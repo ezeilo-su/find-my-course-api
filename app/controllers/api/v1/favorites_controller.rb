@@ -1,7 +1,6 @@
 module Api
   module V1
     class FavoritesController < ApplicationController
-
       include ActionController::HttpAuthentication::Token
 
       before_action :authenticate_user
@@ -9,29 +8,28 @@ module Api
       def create
         course = Course.find_by(slug: favorite_params[:course_slug])
         favorite = Favorite.new(user_id: @user.id, course_id: course.id)
-        if favorite.save          
+        if favorite.save
           render json: CourseSerializer.new(course).serialized_json, status: :created
         else
           render json: { error: favorite.errors.messages }, status: :unprocessable_entity
         end
       end
 
-
       def index
-        render json: CourseSerializer.new(@user.favorite_courses, options).serialized_json                
+        render json: CourseSerializer.new(@user.favorite_courses, options).serialized_json
       end
-      
+
       def destroy
         fav_course = Course.find_by(slug: params[:slug])
         favorite = Favorite.find_by(course_id: fav_course.id)
-        
+
         if favorite.destroy
           head :no_content
         else
           render json: { error: favorite.errors.messages }, status: :unprocessable_entity
         end
       end
-            
+
       private
 
       def options

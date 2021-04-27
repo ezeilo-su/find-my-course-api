@@ -7,7 +7,7 @@ RSpec.describe 'Authentications', type: :request do
       post '/api/v1/login', params: { username: user.username, password: 'password' }
       expect(response).to have_http_status(:created)
       expected_token = AuthenticationTokenService.encode(user.id)
-      expect(response_body).to eq({ 'token' => "#{expected_token}" })
+      expect(response_body).to eq({ 'token' => expected_token.to_s })
     end
 
     it 'returns error when username is missing' do
@@ -24,7 +24,7 @@ RSpec.describe 'Authentications', type: :request do
       expect(response_body).to eq({ 'error' => 'param is missing or the value is empty: password' })
     end
 
-    it 'returns error when the password is incorrect' do      
+    it 'returns error when the password is incorrect' do
       post '/api/v1/login', params: { username: user.username, password: 'incorrect' }
 
       expect(response).to have_http_status(:unauthorized)
@@ -32,6 +32,6 @@ RSpec.describe 'Authentications', type: :request do
   end
 
   # describe 'POST /logout' do
-    
+
   # end
 end

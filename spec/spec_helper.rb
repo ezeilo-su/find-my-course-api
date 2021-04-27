@@ -109,7 +109,6 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
-  
-  config.include RequestHelper, type: :request
 
+  config.include RequestHelper, type: :request
 end

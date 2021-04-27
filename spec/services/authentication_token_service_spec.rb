@@ -10,7 +10,7 @@ describe AuthenticationTokenService do
                                  { algorithm: described_class::ALGORITHM_TYPE }
       expect(decoded_token).to eq(
         [
-          {"user_id"=>1}, # payload
+          { 'user_id' => 1 }, # payload
           { 'alg' => 'HS256' } # header
         ]
       )
