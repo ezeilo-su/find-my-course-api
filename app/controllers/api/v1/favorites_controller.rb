@@ -10,20 +10,27 @@ module Api
         course = Course.find_by(slug: favorite_params[:course_slug])
         favorite = Favorite.new(user_id: @user.id, course_id: course.id)
         if favorite.save          
-          render json: CourseSerializer.new(@user.favorite_courses).serialized_json, status: :created
+          render json: CourseSerializer.new(course).serialized_json, status: :created
         else
-          render json: { error: favorites.errors.messages }, status: :unprocessable_entity
+          render json: { error: favorite.errors.messages }, status: :unprocessable_entity
         end
       end
 
-      # def destroy
-      #   review = Review.find(params[:id])
-      #   if review.destroy
-      #     head :no_content
-      #   else
-      #     render json: { error: review.errors.messages }, status: :unprocessable_entity
-      #   end
-      # end
+
+      def index
+        render json: CourseSerializer.new(@user.favorite_courses, options).serialized_json                
+      end
+      
+      def destroy
+        fav_course = Course.find_by(slug: params[:slug])
+        favorite = Favorite.find_by(course_id: fav_course.id)
+        
+        if favorite.destroy
+          head :no_content
+        else
+          render json: { error: favorite.errors.messages }, status: :unprocessable_entity
+        end
+      end
             
       private
 
