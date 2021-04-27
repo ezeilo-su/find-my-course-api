@@ -13,7 +13,7 @@ RSpec.describe "UserRegistrations", type: :request do
       
       expect(response).to have_http_status(:created)
       user = User.find_by(username: 'zeilotech')
-      expected_token = AuthenticationTokenService.call(user.id)
+      expected_token = AuthenticationTokenService.encode(user.id)
       expect(response_body).to eq({
         'token' => "#{expected_token}",
         'username' => user.username

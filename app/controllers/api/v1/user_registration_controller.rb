@@ -6,7 +6,7 @@ module Api
       def create
         user = User.new(user_params)
         if user.save
-            token = AuthenticationTokenService.call(user.id)
+            token = AuthenticationTokenService.encode(user.id)
             render json: {
               token: token,
               username: user.username
