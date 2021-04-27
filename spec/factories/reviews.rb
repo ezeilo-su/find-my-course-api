@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :review do
-    author { "" }
+    author { nil }
     course { nil }
   end
 end

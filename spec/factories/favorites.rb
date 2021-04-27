@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :favorite do
-    user { "" }
+    user { nil }
     course { nil }
   end
 end
