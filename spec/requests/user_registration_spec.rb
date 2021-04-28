@@ -3,15 +3,15 @@ require 'rails_helper'
 RSpec.describe 'UserRegistrations', type: :request do
   describe 'POST /signup' do
     it 'registers a user when all fields are valid' do
-        expect {
-          post '/api/v1/signup', params: {
+      expect do
+        post '/api/v1/signup', params: {
           user: {
             username: 'zeilotech',
             password: 'password',
             password_confirmation: 'password'
           }
         }
-      }.to change { User.count }.from(0).to(1)
+      end.to change { User.count }.from(0).to(1)
 
       expect(response).to have_http_status(:created)
       user = User.find_by(username: 'zeilotech')

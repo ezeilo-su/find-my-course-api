@@ -38,7 +38,7 @@ module Api
 
       def authenticate_user
         # Authorization: Bearer <token>
-        token, options = token_and_options(request)
+        token, _options = token_and_options(request)
         user_id = AuthenticationTokenService.decode(token)
         @user = User.find(user_id)
       rescue ActiveRecord::RecordNotFound
