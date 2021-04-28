@@ -36,7 +36,7 @@ RSpec.describe 'Favorites', type: :request do
       end.to change { Favorite.count }.from(0).to(1)
 
       expect(response).to have_http_status(:created)
-      expect(response_body).to eq(JSON.parse(CourseSerializer.new(course).serialized_json))
+      expect(response_body).to eq(JSON.parse(CourseSerializer.new(user.favorite_courses, { include: %i[reviews] }).serialized_json))
     end
   end
 
@@ -80,7 +80,7 @@ RSpec.describe 'Favorites', type: :request do
                }
       end.to change { Favorite.count }.from(1).to(0)
 
-      expect(response).to have_http_status(:no_content)
+      expect(response_body).to eq(JSON.parse(CourseSerializer.new(user.favorite_courses, { include: %i[reviews] }).serialized_json))
     end
   end
 end
