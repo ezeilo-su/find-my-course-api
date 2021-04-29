@@ -12,7 +12,7 @@ module Api
             username: user.username
           }, status: :created
         else
-          render json: { error: user.errors.messages }, status: :unprocessable_entity
+          render json: { error: user.errors }, status: :unprocessable_entity
         end
       end
 
