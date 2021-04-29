@@ -5,5 +5,5 @@ class Review < ApplicationRecord
   validates :author_id, presence: true
   validates :course_id, presence: true
 
-  validates :score, presense: true, numericality: { only_integer: true }
+  validates :score, numericality: { only_integer: true }
 end

@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2021_04_29_160928) do
     t.bigint "course_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "score", null: false
+    t.integer "score"
     t.index ["author_id"], name: "index_reviews_on_author_id"
     t.index ["course_id"], name: "index_reviews_on_course_id"
   end
