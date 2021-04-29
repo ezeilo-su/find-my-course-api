@@ -52,7 +52,6 @@ module Api
       def all_favs
         CourseSerializer.new(@user.favorite_courses, options).serialized_json
       end
-      
     end
   end
 end
