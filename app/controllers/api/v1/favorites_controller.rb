@@ -9,7 +9,7 @@ module Api
         course = Course.find_by(slug: favorite_params[:course_slug])
         favorite = Favorite.new(user_id: @user.id, course_id: course.id)
         if favorite.save
-          render json: all_favs, status: :created
+          head :created
         else
           render json: { error: favorite.errors.messages }, status: :unprocessable_entity
         end
@@ -24,7 +24,7 @@ module Api
         favorite = Favorite.find_by(course_id: fav_course.id)
 
         if favorite.destroy
-          render json: all_favs
+          head :no_content
         else
           render json: { error: favorite.errors.messages }, status: :unprocessable_entity
         end
