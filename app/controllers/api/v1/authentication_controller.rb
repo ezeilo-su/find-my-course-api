@@ -11,7 +11,10 @@ module Api
 
         token = AuthenticationTokenService.encode(user.id)
 
-        render json: { token: token }, status: :created
+        render json: {
+          username: user.username,
+          token: token
+        }, status: :created
       end
 
       private

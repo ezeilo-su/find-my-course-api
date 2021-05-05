@@ -7,7 +7,10 @@ RSpec.describe 'Authentications', type: :request do
       post '/api/v1/login', params: { username: user.username, password: 'password' }
       expect(response).to have_http_status(:created)
       expected_token = AuthenticationTokenService.encode(user.id)
-      expect(response_body).to eq({ 'token' => expected_token.to_s })
+      expect(response_body).to eq({
+                                    'username' => user.username,
+                                    'token' => expected_token.to_s
+                                  })
     end
 
     it 'returns error when username is missing' do
