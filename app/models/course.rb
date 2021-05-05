@@ -8,6 +8,7 @@ class Course < ApplicationRecord
   end
 
   def avg_score
+    return 0 unless reviews.count.positive?
     reviews.average(:score).round(1).to_f
   end
 end
